@@ -14,8 +14,33 @@ const SearchPage = () => {
         to: "",
         slider: "100"
     })
+
+    const submitForm = () => {
+        fetch.get()
+    }
+
     const handleChange = (event) => {
-        console.log(event.target.ident)
+        const { name, value } = event.target;
+        setFields((prev) => {
+            switch (name) {
+                case "from":
+                    prev.from = value;
+                    break;
+                case "to":
+                    prev.to = value;
+                    break;
+                case "slider":
+                    prev.slider = value;
+                    break;
+                default:
+                    break;
+            }
+            return {
+                from: prev.from,
+                to: prev.to,
+                slider: prev.slider
+            }
+        })
     }
     return (
         <div style={{
@@ -29,8 +54,8 @@ const SearchPage = () => {
             <TextField
                 style={{ top: "40%" }}
                 value={fields.from}
-                id="standard-basic"
-                key="from"
+                name="from"
+                id="from"
                 ident="from"
                 label="From"
                 variant="standard"
@@ -40,9 +65,9 @@ const SearchPage = () => {
             <TextField
                 style={{ top: "40%" }}
                 value={fields.to}
-                id="standard-basic"
-                ident="from"
-                key="to"
+                name="to"
+                id="to"
+                ident="to"
                 label="To"
                 variant="standard"
                 onChange={handleChange}
@@ -52,7 +77,8 @@ const SearchPage = () => {
                 style={{ top: "43%", width: "25%" }}
                 value={fields.slider}
                 aria-label="Default"
-                key="slider"
+                name="slider"
+                id="slider"
                 valueLabelDisplay="auto"
                 max={1000}
                 onChange={handleChange} />
@@ -60,7 +86,8 @@ const SearchPage = () => {
             <br />
             <Button
                 style={{ top: "45%" }}
-                variant="outlined">Search</Button>
+                variant="outlined"
+                onClick={submitForm}>Search</Button>
             <div class="custom-shape-divider-top-1643334743">
                 <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                     <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>

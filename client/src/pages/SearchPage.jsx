@@ -3,18 +3,22 @@ import TextField from "@mui/material/TextField";
 import Slider from "@mui/material/Slider"
 import Button from "@mui/material/Button"
 import "../styles/SearchPageStyles.css"
-
+import DateFnsAdapter from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DateAdapter from '@mui/lab/AdapterLuxon';
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 const mainBlue = "#FF499E";
 const cloudAqua = "#85FFC7";
 
 
 const SearchPage = () => {
+    const [buttonEnabled, setButtonEnabled] = useState(true);
     const [flightData, setFlightData] = useState({});
     const [flightDataDec, setFlightDataDec] = useState({
         price: "",
         departure: "",
         link: ""
-    })
+    });
     const [fields, setFields] = useState({
         from: "",
         to: "",
@@ -36,6 +40,8 @@ const SearchPage = () => {
                     departure: data.data[0].duration.departure,
                     link: data.data[0].deep_link
                 })
+                setButtonEnabled(false);
+
             })
     }
 
@@ -70,7 +76,23 @@ const SearchPage = () => {
             bottom: "0",
             right: "0",
         }}>
-            <h1 style={{ left: "70%", top: "30%", position: "fixed" }}>{`${flightDataDec.departure} \n ${flightDataDec.price} \n ${flightDataDec.link}`}</h1>
+            <Button
+                style={{ left: "70%", top: "36%", position: "fixed" }}
+                variant="outlined"
+                href={flightDataDec.link}
+                disabled={buttonEnabled}>
+
+                Take me to flight
+            </Button>
+            <div style={{ left: "45%", top: "35%", position: "fixed" }}>
+                <DesktopDatePicker
+                    label="Date desktop"
+                    inputFormat="MM/dd/yyyy"
+                    value={new Date('2014-08-18T21:11:54')}
+                    // onChange={handleChange}
+                    renderInput={(params) => <TextField {...params} />}
+                />
+            </div>
             <TextField
                 style={{ left: "45%", top: "35%", position: "fixed" }}
                 value={fields.from}

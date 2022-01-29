@@ -9,6 +9,12 @@ const cloudAqua = "#85FFC7";
 
 
 const SearchPage = () => {
+    const [flightData, setFlightData] = useState({});
+    const [flightDataDec, setFlightDataDec] = useState({
+        price: "",
+        departure: "",
+        link: ""
+    })
     const [fields, setFields] = useState({
         from: "",
         to: "",
@@ -16,7 +22,21 @@ const SearchPage = () => {
     })
 
     const submitForm = () => {
-        fetch.get()
+        fetch("/search",
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(fields)
+            })
+            .then(response => response.json())
+            .then(data => {
+                setFlightData(data);
+                setFlightDataDec({
+                    price: `${data.data[0].price} ${data.currency}`,
+                    departure: data.data[0].duration.departure,
+                    link: data.data[0].deep_link
+                })
+            })
     }
 
     const handleChange = (event) => {
@@ -49,10 +69,10 @@ const SearchPage = () => {
             left: "0",
             bottom: "0",
             right: "0",
-            textAlign: "center",
         }}>
+            <h1 style={{ left: "70%", top: "30%", position: "fixed" }}>{`${flightDataDec.departure} \n ${flightDataDec.price} \n ${flightDataDec.link}`}</h1>
             <TextField
-                style={{ top: "40%" }}
+                style={{ left: "45%", top: "35%", position: "fixed" }}
                 value={fields.from}
                 name="from"
                 id="from"
@@ -63,7 +83,7 @@ const SearchPage = () => {
             />
             <br />
             <TextField
-                style={{ top: "40%" }}
+                style={{ left: "45%", top: "30%", position: "fixed" }}
                 value={fields.to}
                 name="to"
                 id="to"
@@ -74,7 +94,7 @@ const SearchPage = () => {
             />
             <br />
             <Slider
-                style={{ top: "43%", width: "25%" }}
+                style={{ left: "45%", top: "43%", width: "12REM", position: "fixed" }}
                 value={fields.slider}
                 aria-label="Default"
                 name="slider"
@@ -85,7 +105,7 @@ const SearchPage = () => {
 
             <br />
             <Button
-                style={{ top: "45%" }}
+                style={{ left: "47%", top: "50%", position: "fixed" }}
                 variant="outlined"
                 onClick={submitForm}>Search</Button>
             <div class="custom-shape-divider-top-1643334743">
